@@ -11,9 +11,8 @@ const {
     PermissionFlagsBits 
 } = require('discord.js');
 const axios = require('axios');
-
 // --- CONFIGURATION ---
-const BOT_TOKEN = process.env.DISCORD_TOKEN; //
+const BOT_TOKEN = process.env.DISCORD_TOKEN || process.env.BOT_TOKEN; 
 const MAGMA_API_KEY = process.env.MAGMA_API_KEY;
 const BASE_URL = "https://client.magmahost.net/api/client/servers";
 
