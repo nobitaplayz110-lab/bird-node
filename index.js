@@ -12,9 +12,9 @@ const {
 } = require('discord.js');
 const axios = require('axios');
 
-// --- CONFIGURATION (Apni Details Yahan Daalein) ---
-const BOT_TOKEN = "MTUxNTI4NTA4MDExNjAzOTc5MA.GHa6gc.WWhpuraB_vj_y3hUTJcrSo94cT1KlxP09EM2GA";
-const MAGMA_API_KEY = "fp_76c38888025956819570f7cd5f4f794270846c025d3404366a6a8e3317cb9896"; // Jo image mein fp_... se shuru ho rahi thi
+// --- CONFIGURATION ---
+const BOT_TOKEN = process.env.DISCORD_TOKEN; //
+const MAGMA_API_KEY = process.env.MAGMA_API_KEY;
 const BASE_URL = "https://client.magmahost.net/api/client/servers";
 
 const client = new Client({
