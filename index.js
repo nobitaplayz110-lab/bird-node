@@ -11,8 +11,9 @@ const {
     PermissionFlagsBits 
 } = require('discord.js');
 const axios = require('axios');
-// --- CONFIGURATION ---
-const BOT_TOKEN = process.env.DISCORD_TOKEN || process.env.BOT_TOKEN; 
+
+// --- CONFIGURATION (Render variables auto-catch) ---
+const TOKEN = process.env.DISCORD_TOKEN || process.env.BOT_TOKEN; 
 const MAGMA_API_KEY = process.env.MAGMA_API_KEY;
 const BASE_URL = "https://client.magmahost.net/api/client/servers";
 
@@ -36,21 +37,31 @@ const commands = [
                 .setRequired(false))
 ].map(command => command.toJSON());
 
-// --- REGISTER SLASH COMMANDS ---
+// --- REGISTER SLASH COMMANDS (FOR INSTANT SYNC) ---
 client.once('ready', async () => {
     console.log(`🤖 ${client.user.tag} Is Online and ready to manage servers!`);
     client.user.setActivity('Managing BirdNode Clouds ☁️');
 
-    const rest = new REST({ version: '10' }).setToken(BOT_TOKEN);
+    // 🔴 APNE DISCORD SERVER KI ID NEECHE " " KE ANDAR DALO
+    const YOUR_SERVER_ID = "1504834203626246317"; 
+
+    if (YOUR_SERVER_ID === "1504834203626246317") {
+        console.log("⚠️ Please replace 'YOUR_SERVER_ID' with your actual Discord Server ID inside index.js!");
+        return;
+    }
+
+    const rest = new REST({ version: '10' }).setToken(TOKEN);
     try {
-        console.log('🔄 Started refreshing application (/) commands...');
+        console.log('🔄 Started refreshing application (/) commands for your server...');
+        
         await rest.put(
-            Routes.applicationCommands(client.user.id),
+            Routes.applicationGuildCommands(client.user.id, YOUR_SERVER_ID),
             { body: commands },
         );
-        console.log('🟢 Slash Commands Successfully Synced Globally!');
+        
+        console.log('🟢 Slash Commands Successfully Synced Instantly!');
     } catch (error) {
-        console.error(error);
+        console.error("❌ Slash Command Sync Error:", error);
     }
 });
 
@@ -113,7 +124,6 @@ client.on('interactionCreate', async interaction => {
     if (interaction.isButton()) {
         await interaction.deferReply({ ephemeral: true });
         
-        // CustomID format split: [action, serverId]
         const [action, serverId] = interaction.customId.split('_');
 
         try {
@@ -140,5 +150,5 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-// Start the engine
-client.login(BOT_TOKEN);
+// Start the engine safely
+client.login(TOKEN);
