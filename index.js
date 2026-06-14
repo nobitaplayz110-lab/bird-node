@@ -11,15 +11,27 @@ const {
     PermissionFlagsBits 
 } = require('discord.js');
 const axios = require('axios');
+const http = require('http'); // 🟢 Yeh line add karo
 
-// --- CONFIGURATION (Render variables auto-catch) ---
+// --- CONFIGURATION ---
 const TOKEN = process.env.DISCORD_TOKEN || process.env.BOT_TOKEN; 
 const MAGMA_API_KEY = process.env.MAGMA_API_KEY;
 const BASE_URL = "https://client.magmahost.net/api/client/servers";
+const PORT = process.env.PORT || 3000; // 🟢 Yeh line add karo
+
+// 🟢 FREE RENDER BYPASS: Ek chota sa web server jo Render ko khush rakhega
+http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('BirdNode Cloud Engine is Active ☁️');
+}).listen(PORT, () => {
+    console.log(`🌐 Fake Web Server listening on port ${PORT} for Render free tier!`);
+});
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages]
 });
+
+// ... (Baqi saara niche ka code bilkul same rahega, koi change nahi)
 
 // --- COMMAND DEFINITION ---
 const commands = [
